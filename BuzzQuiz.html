@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>BuzzQuiz</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="BuzzQuiz.css">
+
+
+</head>
+
+<body>
+    <header>
+        <h1>Which Comedian Are You?</h1>
+    </header>
+
+
+    <main>
+        <section class="active">
+            <img src="./images/mic_slide1.jpg" />
+            <p>Click the Next button to take the quiz.</p>
+        </section>
+        <section id="number">
+            <img src="./images/q1.jpg">
+            <h2>I would describe myself as:</h2>
+            <ol>
+                <li>sarcastic</li>
+                <li>witty</li>
+                <li>dark</li>
+                <li>goofy</li>
+            </ol>
+            <label>Your answer: <input type="number" min=1 max=4 step=1 /></label>
+        </section>
+        <section id="radio">
+            <img src="./images/Q2.jpg" />
+            <h2>When someone describes a graphic medical operation, I:</h2>
+            <label><input type="radio" name="radio1" value="Answer1" /> Squeal in disgust</label>
+            <label><input type="radio" name="radio1" value="Answer2" /> Ask for more details and demand a picture</label>
+            <label><input type="radio" name="radio1" value="Answer3" /> Am not paying attention</label>
+            <label><input type="radio" name="radio1" value="Answer4" /> Cry</label>
+
+
+        </section>
+        <section id="image">
+            <img src="./images/halloween_q5.jpg" />
+            <h2>For Halloween, I like to dress up as:</h2>
+            <button onclick="goNext(1)"><img src="./images/spellingbee.jpg" alt="Submit1" /></button>
+            <button onclick="goNext(2)"><img src="./images/groupcostume.png" alt="Submit2" /></button>
+            <button onclick="goNext(3)"><img src="./images/scarycostume.jpg" alt="Submit3" /></button>
+            <button onclick="goNext(4)"><img src="./images/sexycostume.jpg" alt="Submit4" /></button>
+
+
+        </section>
+        <section id="checkbox">
+            <img src="./images/q3.jpg" />
+            <h2>If I trip and fall down the stairs, I:</h2>
+            <label><input onchange="goNext()" type="checkbox" name="Answer1" value="Answer1"> Proclaim, "I'm alright!"</label><br>
+            <label><input onchange="goNext()" type="checkbox" name="Answer2" value="Answer1"> Blame it on the stairs</label><br>
+            <label><input onchange="goNext()" type="checkbox" name="Answer3" value="Answer1"> Breakout into an awkward
+                dance</label><br>
+            <label><input onchange="goNext()" type="checkbox" name="Answer4" value="Answer1"> Walk away, nice and
+                smooth</label><br>
+        </section>
+        <section id="button">
+            <img src="./images/Q4_barfight.jpg" />
+            <h2>Someone punches me in the face. I, then:</h2>
+            <input type="button" name="button" onclick="goNext(1)" value="Punch the person back">
+            <input type="button" name="button" onclick="goNext(2)" value="Walk away">
+            <input type="button" name="button" onclick="goNext(3)" value="Drop a quick one-line insult">
+            <input type="button" name="button" onclick="goNext(4)" value="Threaten to call the police">
+
+
+        </section>
+        <section>
+
+            <div class="wait">
+                <h2>You Are:<h2>
+                        <img src="./images/wait_for_it.jpg" alt="waiting page">
+            </div>
+            <img src="" />
+        </section>
+    </main>
+    <nav>
+        <input type="button" value="Next" onclick="goNext()" />
+    </nav>
+    <script>
+
+        var score = 0;
+        function goNext(num) {
+            
+            var currentSlide = document.querySelector("section.active");
+            switch (currentSlide.id) {
+                case "number":
+                   
+                    var userAnswer = parseInt(currentSlide.querySelector("input").value);
+                    if (userAnswer === 1) {
+                        score++;
+                    }
+                    else if (userAnswer === 2) {
+                        score += 2;
+                    } else if (userAnswer === 3) {
+                        score += 3;
+                    } else if (userAnswer === 4) {
+                        score += 4;
+                    }
+                    break;
+                case "image":
+                    var userAnswer = num;
+                    if (userAnswer === 1) {
+                        score++;
+                    }
+                    else if (userAnswer === 2) {
+                        score += 4;
+                    } else if (userAnswer === 3) {
+                        score += 3;
+                    } else if (userAnswer === 4) {
+                        score += 2;
+                    }
+                    break;
+                case "radio":
+                    var userAnswer = currentSlide.querySelector("input").value;
+                    if (userAnswer == "Answer1") {
+                        score += 4;
+                    }
+                    else if (userAnswer == "Answer2") {
+                        score += 3;
+                    } else if (userAnswer === "Answer3") {
+                        score++;
+                    } else if (userAnswer === "Answer4") {
+                        score += 2;
+                    }
+                    break;
+                case "checkbox":
+                    var userAnswer = currentSlide.querySelector("input").value;
+                    if (userAnswer == "Answer1") {
+                        score += 2;
+                    }
+                    else if (userAnswer == "Answer2") {
+                        score++;
+                    } else if (userAnswer === "Answer3") {
+                        score += 4;
+                    } else if (userAnswer === "Answer4") {
+                        score += 3;
+                    }
+
+                    break;
+                case "button":
+                    var userAnswer = num;
+                    if (userAnswer === 1) {
+                        score++;
+                    }
+                    else if (userAnswer === 2) {
+                        score += 4;
+                    } else if (userAnswer === 3) {
+                        score += 3;
+                    } else if (userAnswer === 4) {
+                        score += 2; 
+                    }
+                    break;
+            }
+            
+            var nextSlide = currentSlide.nextElementSibling;
+            if (!nextSlide) { 
+                document.querySelector("nav input").outerHTML = "";
+                var image = currentSlide.querySelector("img:last-of-type");
+                if (score <= 8) {
+                    image.src = "./images/chris_delia.jpg";
+                }
+                else if (score >= 13 && score <= 15) {
+                    image.src = "./images/sarah silverman.jpeg";
+                }
+                else if (score >= 9 && score <= 12) {
+                    image.src = "./images/kristen_wiig.jpg";
+                }
+                else if (score >= 16 && score <= 20) {
+                    image.src = "./images/jim_carrey.jpg";
+
+                }
+                return;
+
+            }
+            else {
+                
+                currentSlide.classList.remove("active");
+                nextSlide.classList.add("active");
+
+
+
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
